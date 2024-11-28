@@ -17,6 +17,7 @@
 #include "keypad.h"
 #include "lcd.h"
 #include "uart.h"
+#include "pir_sensor.h"
 #include <util/delay.h>
 #include <avr/io.h>
 #include <string.h>
@@ -69,13 +70,13 @@ void find_slot(void);
  * Check if this ID is verified or not return 1 if it's verified
  * and returns 0 if not.
  */
-uint8 verify_ID(uint8 ID);
+uint8 verify_ID(uint8* ID);
 
 /*
  * Description :
  * See what slot does this ID assigned returns 1 in case of slot1 and
  * returns 2 in case of slot2 and returns 0 in case of none "not parked yet" .
  */
-uint8 my_slot(uint8 ID);
+uint8 my_slot(uint8* ID);
 
 #endif /* APP_H_ */

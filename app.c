@@ -6,7 +6,7 @@
  *
  * Description: Source file for the App
  *
- * Author: Mohamed Tarek
+ * Author: Nada Hamed
  *
  *******************************************************************************/
 
@@ -16,8 +16,9 @@ void init_all(void)
 {
 	UART_ConfigType info_uart={six_bit,disapled,one_bit,rate7};
 	SREG|=(1<<7);    /*         enable I-bit      */
-	LCD_init();/*     intialize LCD       */
-	UART_init(&info_uart);/*     intialize   UART    */
+	LCD_init();/*     Initialize LCD       */
+	UART_init(&info_uart);/*     Initialize   UART    */
+	PIR_init();/*     Initialize 2 PIR sensors      */
 	default_message();
 }
 
@@ -132,12 +133,12 @@ void find_slot(void)
 	}
 }
 
-uint8 verify_ID(uint8 ID)
+uint8 verify_ID(uint8* ID)
 {
 	uint8 found=0;
 	for (uint8 i = 0; i < NUM_USERS; i++) {
 		/*Compare entered ID with each stored IDs*/
-		if (strcmp(ID, users_ID[i]) == 0) {
+		if (strcmp((const char*) ID, (const char*)users_ID[i]) == 0) {
 			/*ID is verified */
 			found = 1;
 			return found;
@@ -147,13 +148,13 @@ uint8 verify_ID(uint8 ID)
 	return found;
 }
 
-uint8 my_slot(uint8 ID)
+uint8 my_slot(uint8* ID)
 {
 	uint8 index;
 	uint8 slot_num;
 	for (index = 0; index < NUM_USERS; index++) {
 		/*Compare given ID with each stored IDs to get index*/
-		if (strcmp(ID, users_ID[index]) == 0) {
+		if (strcmp((const char*)ID, (const char*)users_ID[index]) == 0) {
 			/*ID is verified */
 			break;
 		}
